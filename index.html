@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TideShift — Coastal California Ocean Health</title>
+<meta name="description" content="TideShift is a student-led nonprofit improving ocean health along the California coast through cleanups, marine education, and plastic-reduction campaigns." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2F8F9;
+    --surface: #FFFFFF;
+    --surface-2: #E9F2F3;
+    --text: #0A2540;
+    --muted: #5C7891;
+    --primary: #00A6B4;
+    --primary-deep: #007F8A;
+    --secondary: #0E5C7F;
+    --accent: #F4A261;
+    --donate: #FF5A66;
+    --donate-deep: #E84455;
+    --sand: #F8EBD3;
+    --shadow-sm: 0 2px 8px rgba(10, 37, 64, 0.06);
+    --shadow-md: 0 10px 30px rgba(10, 37, 64, 0.10);
+    --shadow-lg: 0 20px 50px rgba(10, 37, 64, 0.14);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 24px;
+    --radius-xl: 28px;
+    --container: 1200px;
+    --font-heading: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; color: var(--text); font-weight: 700; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin-bottom: 0.5em; }
+  h3 { font-size: 1.3rem; margin-bottom: 0.4em; }
+  p { color: var(--text); }
+  p.muted { color: var(--muted); }
+  a { color: var(--primary-deep); text-decoration: none; }
+  a:hover { color: var(--secondary); }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(242, 248, 249, 0.72);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgba(10, 37, 64, 0.06);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px; max-width: var(--container); margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-heading); font-weight: 800; font-size: 1.25rem; color: var(--text); }
+  .brand svg { width: 32px; height: 32px; }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links a {
+    font-weight: 500; color: var(--text); padding: 10px 14px; border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { background: rgba(0, 166, 180, 0.08); color: var(--primary-deep); }
+  .nav-links a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .btn-donate {
+    background: var(--donate); color: #fff !important; padding: 10px 20px !important;
+    border-radius: 999px !important; font-weight: 600 !important;
+    box-shadow: 0 6px 16px rgba(255, 90, 102, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .btn-donate:hover { background: var(--donate-deep); color: #fff !important; transform: translateY(-1px); box-shadow: 0 8px 22px rgba(255, 90, 102, 0.45); }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; color: var(--text); }
+  @media (max-width: 820px) {
+    .nav-toggle { display: block; }
+    .nav-links { position: absolute; top: 100%; right: 16px; left: 16px; flex-direction: column; align-items: stretch; background: var(--surface); padding: 12px; border-radius: var(--radius-md); box-shadow: var(--shadow-md); display: none; }
+    .nav-links.open { display: flex; }
+    .nav-links a { width: 100%; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative; padding: 80px 0 100px; overflow: hidden;
+    background: linear-gradient(180deg, #E5F1F3 0%, var(--bg) 100%);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: url('assets/hero-bg.jpg') center/cover no-repeat;
+    opacity: 0.18; z-index: 0;
+  }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0, 166, 180, 0.12); color: var(--primary-deep);
+    padding: 6px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 18px;
+  }
+  .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+  .hero h1 span.accent { color: var(--primary-deep); }
+  .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 540px; margin: 18px 0 28px; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 26px; border-radius: 999px; font-weight: 600; font-size: 1rem;
+    cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: var(--font-body);
+  }
+  .btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 8px 22px rgba(0, 166, 180, 0.32); }
+  .btn-primary:hover { background: var(--primary-deep); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid rgba(10, 37, 64, 0.18); }
+  .btn-ghost:hover { background: rgba(10, 37, 64, 0.04); }
+  .btn-cta-donate {
+    background: var(--donate); color: #fff;
+    box-shadow: 0 8px 22px rgba(255, 90, 102, 0.35);
+  }
+  .btn-cta-donate:hover { background: var(--donate-deep); transform: translateY(-1px); }
+
+  .hero-stats { display: flex; gap: 28px; margin-top: 40px; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; }
+  .stat .num { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--secondary); }
+  .stat .label { font-size: 0.85rem; color: var(--muted); }
+
+  .hero-visual {
+    position: relative; aspect-ratio: 1/1; max-width: 520px; justify-self: end; width: 100%;
+  }
+  .hero-visual svg { width: 100%; height: 100%; }
+  @media (max-width: 900px) { .hero-visual { justify-self: center; } }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 90px 0; position: relative; }
+  .section-head { max-width: 720px; margin-bottom: 48px; }
+  .section-head .eyebrow { margin-bottom: 14px; }
+
+  /* ---------- PROBLEM ---------- */
+  #problem { background: var(--surface); }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 900px) { .problem-grid { grid-template-columns: 1fr; } }
+  .problem-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .problem-stat {
+    background: linear-gradient(160deg, var(--surface-2), var(--surface));
+    padding: 24px; border-radius: var(--radius-md);
+    border: 1px solid rgba(10, 37, 64, 0.06);
+  }
+  .problem-stat .big { font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--primary-deep); }
+  .problem-stat .desc { font-size: 0.92rem; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- EVOLUTION ---------- */
+  #evolution { background: var(--bg); }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 36px; }
+  @media (max-width: 900px) { .timeline { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .timeline { grid-template-columns: 1fr; } }
+  .timeline-card {
+    background: var(--surface); padding: 26px; border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(10, 37, 64, 0.05);
+    position: relative;
+  }
+  .timeline-card .step {
+    width: 36px; height: 36px; border-radius: 10px; background: rgba(0, 166, 180, 0.12);
+    color: var(--primary-deep); font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading); margin-bottom: 12px;
+  }
+  .timeline-card h4 { font-size: 1.05rem; margin-bottom: 8px; }
+  .timeline-card p { font-size: 0.92rem; color: var(--muted); }
+
+  /* ---------- PROGRAMS ---------- */
+  #programs { background: var(--surface); }
+  .programs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  @media (max-width: 820px) { .programs-grid { grid-template-columns: 1fr; } }
+  .program-card {
+    background: var(--surface); border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(10, 37, 64, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .program-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .program-img { aspect-ratio: 16/10; overflow: hidden; background: var(--surface-2); }
+  .program-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .program-card:hover .program-img img { transform: scale(1.04); }
+  .program-body { padding: 26px 26px 28px; }
+  .program-tag {
+    display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--primary-deep);
+    background: rgba(0, 166, 180, 0.10); padding: 4px 10px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .program-body h3 { color: var(--text); }
+  .program-body p { color: var(--muted); font-size: 0.96rem; margin-top: 6px; }
+
+  /* ---------- IMPACT ---------- */
+  #impact {
+    background: linear-gradient(160deg, #0E5C7F 0%, #0A2540 100%);
+    color: #E5F1F3;
+    overflow: hidden;
+  }
+  #impact h2, #impact h3 { color: #fff; }
+  #impact .eyebrow { background: rgba(255, 255, 255, 0.12); color: #9ED7DE; }
+  #impact .eyebrow .dot { background: #F4A261; }
+  #impact p { color: rgba(229, 241, 243, 0.85); }
+  .impact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 900px) { .impact-grid { grid-template-columns: 1fr; } }
+  .impact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .impact-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 24px; border-radius: var(--radius-md);
+  }
+  .impact-card .num { font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: #F4A261; }
+  .impact-card .lbl { font-size: 0.92rem; color: rgba(229, 241, 243, 0.78); margin-top: 6px; }
+  .impact-images { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .impact-images img { border-radius: var(--radius-md); aspect-ratio: 4/5; object-fit: cover; height: 100%; }
+  .impact-images img:nth-child(1) { aspect-ratio: 4/5; }
+  .impact-images img:nth-child(2) { aspect-ratio: 4/5; margin-top: 30px; }
+
+  /* ---------- FOUNDER ---------- */
+  #founder { background: var(--bg); }
+  .founder-card {
+    background: var(--surface); padding: 48px; border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md); border: 1px solid rgba(10, 37, 64, 0.05);
+    display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center;
+  }
+  @media (max-width: 720px) { .founder-card { grid-template-columns: 1fr; padding: 32px; text-align: center; } }
+  .founder-photo {
+    width: 220px; height: 220px; border-radius: 50%; overflow: hidden;
+    background: linear-gradient(135deg, #B8E0E6, #00A6B4);
+    box-shadow: 0 12px 30px rgba(0, 127, 138, 0.25);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+  }
+  .founder-photo img, .founder-photo svg { width: 100%; height: 100%; object-fit: cover; }
+  .founder-card h3 { font-size: 1.6rem; }
+  .founder-card .role { color: var(--primary-deep); font-weight: 600; margin-bottom: 10px; }
+  .founder-card p { color: var(--muted); margin-bottom: 12px; }
+  .founder-quote {
+    border-left: 3px solid var(--accent); padding-left: 16px;
+    font-style: italic; color: var(--text); margin-top: 16px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  #contact { background: var(--surface); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: start; }
+  @media (max-width: 820px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-info { padding: 32px; background: linear-gradient(160deg, var(--surface-2), var(--surface)); border-radius: var(--radius-lg); border: 1px solid rgba(10, 37, 64, 0.06); }
+  .contact-info h3 { margin-bottom: 12px; }
+  .contact-info p { color: var(--muted); margin-bottom: 20px; }
+  .contact-email {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(0, 166, 180, 0.08); padding: 12px 16px; border-radius: 12px;
+    color: var(--primary-deep); font-weight: 600;
+  }
+  form.contact-form { display: grid; gap: 16px; }
+  .field { display: grid; gap: 6px; }
+  .field label { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+  .field input, .field textarea {
+    font-family: var(--font-body); font-size: 1rem;
+    padding: 14px 16px; border-radius: 12px;
+    border: 1.5px solid rgba(10, 37, 64, 0.12);
+    background: var(--surface); color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  .field input:focus, .field textarea:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(0, 166, 180, 0.15);
+  }
+  .field textarea { min-height: 130px; resize: vertical; }
+  .field .err { color: var(--donate); font-size: 0.82rem; display: none; }
+  .field.invalid .err { display: block; }
+  .field.invalid input, .field.invalid textarea { border-color: var(--donate); }
+
+  /* ---------- DONATE ---------- */
+  #donate {
+    background: linear-gradient(160deg, #FFF6EE 0%, #FBE8D2 100%);
+    position: relative; overflow: hidden;
+  }
+  .donate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  @media (max-width: 820px) { .donate-grid { grid-template-columns: 1fr; } }
+  .donate-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(10, 37, 64, 0.08);
+    padding: 36px; border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+  }
+  .donate-amounts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+  @media (max-width: 540px) { .donate-amounts { grid-template-columns: 1fr 1fr; } }
+  .amount-btn {
+    padding: 14px 10px; border-radius: 12px;
+    background: var(--surface); color: var(--text);
+    border: 1.5px solid rgba(10, 37, 64, 0.12);
+    cursor: pointer; font-weight: 600; font-size: 1rem;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .amount-btn:hover { border-color: var(--primary); color: var(--primary-deep); }
+  .amount-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .amount-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+  .custom-amount { display: grid; grid-template-columns: auto 1fr; gap: 0; align-items: center; margin-bottom: 18px; }
+  .custom-amount span { padding: 14px 16px; background: var(--surface-2); border-radius: 12px 0 0 12px; border: 1.5px solid rgba(10, 37, 64, 0.12); border-right: 0; font-weight: 600; }
+  .custom-amount input { border-radius: 0 12px 12px 0; border-left: 0; }
+  .donate-desc { color: var(--muted); margin-top: 14px; font-size: 0.92rem; }
+
+  /* ---------- TOAST ---------- */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--text); color: #fff;
+    padding: 14px 22px; border-radius: 12px; font-weight: 500;
+    box-shadow: var(--shadow-lg); z-index: 200;
+    transform: translateY(20px); opacity: 0; pointer-events: none;
+    transition: transform 0.3s, opacity 0.3s;
+    max-width: calc(100vw - 48px);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ---------- MODAL ---------- */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(10, 37, 64, 0.5);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; z-index: 300;
+    padding: 24px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--surface); padding: 36px; border-radius: var(--radius-xl);
+    max-width: 440px; width: 100%; text-align: center;
+    box-shadow: var(--shadow-lg); animation: pop 0.3s;
+  }
+  @keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-icon {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: rgba(0, 166, 180, 0.12); color: var(--primary-deep);
+    display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .modal h3 { margin-bottom: 10px; }
+  .modal p { color: var(--muted); margin-bottom: 20px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--text); color: rgba(255, 255, 255, 0.78);
+    padding: 50px 0 24px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px;
+    padding-bottom: 32px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr; } }
+  .footer-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; }
+  footer h4 { color: #fff; font-size: 1rem; margin-bottom: 14px; }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 8px; }
+  footer ul a { color: rgba(255, 255, 255, 0.72); transition: color 0.2s; }
+  footer ul a:hover { color: var(--accent); }
+  .footer-bottom {
+    padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-size: 0.88rem; color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* ---------- ANIMATION ---------- */
+  [data-animate] {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  [data-animate].in {
+    opacity: 1; transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate] { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Wave divider */
+  .wave-divider { display: block; width: 100%; height: 60px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="brand" aria-label="TideShift home">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandGrad" x1="0" y1="0" x2="64" y2="64">
+            <stop offset="0%" stop-color="#00A6B4"/>
+            <stop offset="100%" stop-color="#0E5C7F"/>
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="30" fill="url(#brandGrad)"/>
+        <path d="M8 38 Q 18 28, 28 38 T 48 38 T 60 36" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M8 46 Q 18 38, 28 46 T 48 46 T 60 44" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="44" cy="22" r="3" fill="#F4A261"/>
+      </svg>
+      TideShift
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#home">Home</a>
+      <a href="#evolution">About Us</a>
+      <a href="#programs">Programs</a>
+      <a href="#contact">Contact</a>
+      <a href="#donate" class="btn-donate">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="container hero-grid">
+    <div data-animate>
+      <span class="eyebrow"><span class="dot"></span> Coastal California · Student-Led</span>
+      <h1>Healthier coasts start with the next <span class="accent">tide of students.</span></h1>
+      <p class="lead">TideShift is a youth-driven nonprofit cleaning California beaches, teaching marine science in classrooms, and shrinking the plastic that ends up in our ocean — one school, one shoreline, one Saturday at a time.</p>
+      <div class="cta-row">
+        <a href="#programs" class="btn btn-primary">Explore our work
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#donate" class="btn btn-cta-donate">Donate</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="num">2,140 lbs</span><span class="label">Trash removed since 2023</span></div>
+        <div class="stat"><span class="num">38</span><span class="label">Beach cleanups hosted</span></div>
+        <div class="stat"><span class="num">14</span><span class="label">Partner schools</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" data-animate>
+      <!-- Inline SVG: ocean wave with sun, shoreline, fish, recycling icon -->
+      <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of ocean waves, sun, sea creatures and recycling">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFE7CA"/>
+            <stop offset="100%" stop-color="#E5F1F3"/>
+          </linearGradient>
+          <linearGradient id="sea1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7FCFD8"/>
+            <stop offset="100%" stop-color="#00A6B4"/>
+          </linearGradient>
+          <linearGradient id="sea2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0E5C7F"/>
+            <stop offset="100%" stop-color="#0A2540"/>
+          </linearGradient>
+          <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F8C97D"/>
+            <stop offset="100%" stop-color="#F4A261"/>
+          </radialGradient>
+        </defs>
+        <!-- Background circle -->
+        <circle cx="260" cy="260" r="240" fill="url(#sky)"/>
+        <!-- Sun -->
+        <circle cx="370" cy="170" r="56" fill="url(#sun)"/>
+        <!-- Birds -->
+        <path d="M120 130 q 8 -8 16 0 q 8 -8 16 0" stroke="#0A2540" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M170 100 q 6 -6 12 0 q 6 -6 12 0" stroke="#0A2540" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <!-- Wave layer back -->
+        <path d="M20 320 Q 90 270, 160 310 T 300 310 T 440 305 T 500 320 L 500 500 L 20 500 Z" fill="url(#sea1)" opacity="0.85"/>
+        <!-- Wave layer front -->
+        <path d="M20 380 Q 90 340, 160 380 T 300 380 T 440 375 T 500 388 L 500 500 L 20 500 Z" fill="url(#sea2)"/>
+        <!-- Sandy shore -->
+        <path d="M20 500 L 500 500 L 500 460 Q 380 440, 260 460 Q 140 480, 20 460 Z" fill="#F8EBD3"/>
+        <!-- Fish -->
+        <g>
+          <ellipse cx="180" cy="410" rx="22" ry="10" fill="#F4A261"/>
+          <polygon points="158,410 145,402 145,418" fill="#F4A261"/>
+          <circle cx="190" cy="408" r="2.2" fill="#0A2540"/>
+        </g>
+        <g>
+          <ellipse cx="320" cy="430" rx="16" ry="7" fill="#FF5A66"/>
+          <polygon points="304,430 295,425 295,435" fill="#FF5A66"/>
+          <circle cx="328" cy="429" r="1.8" fill="#0A2540"/>
+        </g>
+        <!-- Bubbles -->
+        <circle cx="240" cy="440" r="4" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="250" cy="425" r="2.5" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="380" cy="450" r="3" fill="rgba(255,255,255,0.7)"/>
+        <!-- Recycling triangle floating -->
+        <g transform="translate(420,330) rotate(-12)">
+          <circle r="28" fill="rgba(255,255,255,0.85)"/>
+          <path d="M-12 -6 L 0 -16 L 12 -6 L 6 -6 L 6 4 L -6 4 L -6 -6 Z" fill="#00A6B4" transform="rotate(0)"/>
+        </g>
+        <!-- Foam -->
+        <path d="M40 320 Q 80 305, 130 320" stroke="#fff" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>
+        <path d="M210 318 Q 250 304, 300 318" stroke="#fff" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div data-animate>
+        <span class="eyebrow"><span class="dot"></span> The Problem</span>
+        <h2>Plastic doesn't stop at the shoreline.</h2>
+        <p class="muted" style="margin-bottom:16px;">More than a third of the trash washing up on California beaches is single-use plastic — bottle caps, straws, food wrappers, fishing line. Most of it breaks down into microplastics that sea otters, fish, and seabirds mistake for food.</p>
+        <p class="muted">The harder truth: most of it never had to reach the water. It came from communities five, fifteen, or fifty miles inland, traveling down storm drains and creeks. Solving this means building habits — and that starts with the kids who'll inherit this coastline.</p>
+      </div>
+      <div class="problem-stats" data-animate>
+        <div class="problem-stat">
+          <div class="big">80%</div>
+          <div class="desc">of marine debris on CA beaches originates on land</div>
+        </div>
+        <div class="problem-stat">
+          <div class="big">11M</div>
+          <div class="desc">metric tons of plastic enter the ocean each year</div>
+        </div>
+        <div class="problem-stat">
+          <div class="big">1 in 3</div>
+          <div class="desc">marine species in CA waters has ingested plastic</div>
+        </div>
+        <div class="problem-stat">
+          <div class="big">450 yrs</div>
+          <div class="desc">average breakdown time for a plastic bottle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVOLUTION -->
+<section id="evolution">
+  <div class="container">
+    <div class="section-head" data-animate>
+      <span class="eyebrow"><span class="dot"></span> Our Story</span>
+      <h2>From a single classroom presentation to a coastal movement.</h2>
+      <p class="muted">TideShift began as a high school project documenting plastic on a single Half Moon Bay beach. It grew because every cleanup turned into a classroom invitation, every classroom into a school partnership, and every partnership into another stretch of cleaner shore.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-card" data-animate>
+        <div class="step">01</div>
+        <h4>The Shoreline Survey</h4>
+        <p>What started as a science-fair project — counting and categorizing plastic items along a 1-mile beach transect — revealed patterns nobody on our block was talking about.</p>
+      </div>
+      <div class="timeline-card" data-animate>
+        <div class="step">02</div>
+        <h4>The First Cleanup</h4>
+        <p>We invited classmates. Twelve people showed up. We filled forty-three trash bags in two hours and realized this couldn't be a one-time event.</p>
+      </div>
+      <div class="timeline-card" data-animate>
+        <div class="step">03</div>
+        <h4>The Classroom Pivot</h4>
+        <p>A 4th-grade teacher asked us to present. Then six more teachers did. Education became as central to the mission as the cleanups themselves.</p>
+      </div>
+      <div class="timeline-card" data-animate>
+        <div class="step">04</div>
+        <h4>The Nonprofit</h4>
+        <p>In 2024 we formalized as TideShift to recruit volunteers, support more schools, and run plastic-reduction campaigns at the source — not just the shore.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="container">
+    <div class="section-head" data-animate>
+      <span class="eyebrow"><span class="dot"></span> What We Do</span>
+      <h2>Four programs working together up and down the coast.</h2>
+      <p class="muted">Each program is volunteer-led, school-friendly, and designed to scale by handing the playbook to the next student who wants to start one.</p>
+    </div>
+    <div class="programs-grid">
+      <article class="program-card" data-animate>
+        <div class="program-img"><img src="assets/program1.jpg" alt="Volunteers cleaning up a California beach" loading="lazy"></div>
+        <div class="program-body">
+          <span class="program-tag">Cleanups</span>
+          <h3>Saturday Shorelines</h3>
+          <p>Monthly volunteer cleanups across Half Moon Bay, Pacifica, Santa Cruz, and Monterey. Every cleanup ends with a sort-and-data session: we weigh, log, and report what we collect to support state policy work.</p>
+        </div>
+      </article>
+      <article class="program-card" data-animate>
+        <div class="program-img"><img src="assets/program2.jpg" alt="Students in a marine science workshop" loading="lazy"></div>
+        <div class="program-body">
+          <span class="program-tag">Education</span>
+          <h3>Sea Lab Workshops</h3>
+          <p>Hands-on K–8 marine ecosystem workshops co-designed with local teachers. Kids dissect kelp, build food webs, and run mini plastic-decomposition experiments that take the lesson home with them.</p>
+        </div>
+      </article>
+      <article class="program-card" data-animate>
+        <div class="program-img"><img src="assets/program3.jpg" alt="Plastic pollution along the shoreline" loading="lazy"></div>
+        <div class="program-body">
+          <span class="program-tag">Advocacy</span>
+          <h3>Source Reduction Campaigns</h3>
+          <p>We partner with cafés, school cafeterias, and city councils to swap single-use plastics for reusable or compostable alternatives — and we track the savings publicly so others can replicate.</p>
+        </div>
+      </article>
+      <article class="program-card" data-animate>
+        <div class="program-img"><img src="assets/program4.jpg" alt="Kids exploring tide pools and the beach" loading="lazy"></div>
+        <div class="program-body">
+          <span class="program-tag">Field Trips</span>
+          <h3>Tidepool Discovery Days</h3>
+          <p>Free guided field trips for Title I schools that wouldn't otherwise reach the coast. Students meet anemones, hermit crabs, and sea stars — and leave with a notebook full of their own observations.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="container">
+    <div class="impact-grid">
+      <div data-animate>
+        <span class="eyebrow"><span class="dot"></span> Our Impact</span>
+        <h2>Numbers that came out of trash bags and notebooks.</h2>
+        <p style="margin-bottom:24px;">Every cleanup is also a citizen-science survey. Every workshop is also a pre/post-knowledge check. We share both because real change has to be measurable.</p>
+        <div class="impact-cards">
+          <div class="impact-card">
+            <div class="num">2,140 lbs</div>
+            <div class="lbl">Trash & plastic recovered</div>
+          </div>
+          <div class="impact-card">
+            <div class="num">3,400+</div>
+            <div class="lbl">Students reached in classrooms</div>
+          </div>
+          <div class="impact-card">
+            <div class="num">14</div>
+            <div class="lbl">Schools in active partnership</div>
+          </div>
+          <div class="impact-card">
+            <div class="num">9</div>
+            <div class="lbl">Cafés switched off plastic straws</div>
+          </div>
+        </div>
+      </div>
+      <div class="impact-images" data-animate>
+        <img src="assets/impact1.jpg" alt="Sea turtle swimming in clean ocean water" loading="lazy">
+        <img src="assets/impact2.jpg" alt="California kelp forest underwater" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder">
+  <div class="container">
+    <div class="section-head" data-animate>
+      <span class="eyebrow"><span class="dot"></span> Meet the Founder</span>
+      <h2>Built by a student. Run with a community.</h2>
+    </div>
+    <div class="founder-card" data-animate>
+      <div class="founder-photo" id="founderPhoto">
+        <!-- Inline SVG avatar fallback (replaced by founder.png if found) -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="avatarBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7FCFD8"/>
+              <stop offset="100%" stop-color="#0E5C7F"/>
+            </linearGradient>
+          </defs>
+          <rect width="200" height="200" fill="url(#avatarBg)"/>
+          <circle cx="100" cy="80" r="34" fill="#F8EBD3"/>
+          <path d="M40 200 Q 40 130, 100 130 Q 160 130, 160 200 Z" fill="#F8EBD3"/>
+          <!-- wave detail -->
+          <path d="M20 180 Q 60 165, 100 180 T 180 180" stroke="rgba(255,255,255,0.4)" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <div>
+        <h3>Marisabel Testing</h3>
+        <div class="role">Founder · Computer Science Student</div>
+        <p>Marisabel started TideShift as a high schooler who couldn't stop noticing what the tide brought in. With a Computer Science focus, she's building the data tooling — from cleanup-logging apps to school dashboards — that lets a small volunteer team run programs at a regional scale.</p>
+        <p>Her goal: make it easy enough for any student in any coastal town to spin up their own chapter, and hard enough for plastic to keep ending up where it doesn't belong.</p>
+        <div class="founder-quote">"You don't need a degree to start. You need a beach, a Saturday, and a willingness to count what you find."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head" data-animate>
+      <span class="eyebrow"><span class="dot"></span> Get Involved</span>
+      <h2>Bring TideShift to your school, beach, or block.</h2>
+      <p class="muted">Whether you're a teacher, a student, a parent, or a café owner ready to ditch single-use plastic — we'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info" data-animate>
+        <h3>Reach the team</h3>
+        <p class="muted">We respond to most messages within two days. Tell us what you're hoping to do — host a cleanup, schedule a workshop, partner on a campaign — and we'll route you to the right volunteer.</p>
+        <a href="mailto:example@example.com" class="contact-email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          example@example.com
+        </a>
+        <div style="margin-top:28px;">
+          <h4 style="font-size:0.95rem; margin-bottom:8px;">Quick ways to help</h4>
+          <ul style="list-style:none; color:var(--muted); font-size:0.95rem;">
+            <li style="padding:6px 0;">→ Join a Saturday cleanup</li>
+            <li style="padding:6px 0;">→ Bring Sea Lab to your classroom</li>
+            <li style="padding:6px 0;">→ Refer your café for plastic reduction</li>
+            <li style="padding:6px 0;">→ Sponsor a Title I field trip</li>
+          </ul>
+        </div>
+      </div>
+      <form class="contact-form" id="contactForm" novalidate data-animate>
+        <div class="field" id="field-name">
+          <label for="c-name">Your name</label>
+          <input id="c-name" name="name" type="text" placeholder="Alex Rivera" required>
+          <span class="err">Please enter your name.</span>
+        </div>
+        <div class="field" id="field-email">
+          <label for="c-email">Email</label>
+          <input id="c-email" name="email" type="email" placeholder="you@school.edu" required>
+          <span class="err">Please enter a valid email.</span>
+        </div>
+        <div class="field" id="field-subject">
+          <label for="c-subject">What's this about?</label>
+          <input id="c-subject" name="subject" type="text" placeholder="Cleanup, workshop, partnership…" required>
+          <span class="err">Please add a subject.</span>
+        </div>
+        <div class="field" id="field-msg">
+          <label for="c-msg">Message</label>
+          <textarea id="c-msg" name="message" placeholder="Tell us a bit about what you'd like to do." required></textarea>
+          <span class="err">Please write a short message.</span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-self:start;">Send message
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section id="donate">
+  <div class="container">
+    <div class="donate-grid">
+      <div data-animate>
+        <span class="eyebrow"><span class="dot"></span> Support the work</span>
+        <h2>Every dollar becomes a bag, a workshop, or a bus.</h2>
+        <p class="muted" style="margin-bottom:18px;">$10 buys gloves and bags for one cleanup volunteer. $50 funds a single Sea Lab classroom kit. $250 sponsors a Title I tidepool field trip. We publish quarterly impact reports so you can see exactly where your gift went.</p>
+        <p class="muted">100% of donations go directly to programs — there's no paid staff to fund. We're a fully volunteer-run student organization.</p>
+        <!-- Inline SVG donation graphic -->
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="margin-top:20px; max-width:380px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="heartG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FF7A82"/>
+              <stop offset="100%" stop-color="#FF5A66"/>
+            </linearGradient>
+            <linearGradient id="waveG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7FCFD8"/>
+              <stop offset="100%" stop-color="#00A6B4"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 140 Q 80 110, 160 140 T 320 140 L 320 200 L 0 200 Z" fill="url(#waveG)" opacity="0.5"/>
+          <path d="M0 160 Q 80 135, 160 160 T 320 160 L 320 200 L 0 200 Z" fill="url(#waveG)"/>
+          <g transform="translate(160,90)">
+            <path d="M 0 30 C -30 5, -55 5, -55 -15 C -55 -35, -30 -45, 0 -20 C 30 -45, 55 -35, 55 -15 C 55 5, 30 5, 0 30 Z" fill="url(#heartG)"/>
+          </g>
+          <circle cx="60" cy="50" r="6" fill="#F4A261"/>
+          <circle cx="270" cy="40" r="4" fill="#F4A261" opacity="0.7"/>
+          <circle cx="290" cy="80" r="3" fill="#F4A261" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="donate-card" data-animate>
+        <h3>Make a donation</h3>
+        <p class="donate-desc" style="margin-top:6px;">Choose an amount or enter your own. Your gift directly funds cleanup gear, classroom kits, and field trips for Title I schools.</p>
+        <div class="donate-amounts" role="group" aria-label="Donation amount">
+          <button type="button" class="amount-btn" data-amount="10">$10</button>
+          <button type="button" class="amount-btn selected" data-amount="50">$50</button>
+          <button type="button" class="amount-btn" data-amount="100">$100</button>
+          <button type="button" class="amount-btn" data-amount="250">$250</button>
+        </div>
+        <div class="custom-amount">
+          <span>$</span>
+          <input id="customAmount" type="number" min="1" placeholder="Custom amount">
+        </div>
+        <button class="btn btn-cta-donate" id="donateContinue" style="width:100%;">Continue to donate
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <p class="donate-desc" style="text-align:center; margin-top:14px;">This is a demo donation flow — no payment will be processed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="32" cy="32" r="30" fill="#00A6B4"/>
+            <path d="M8 38 Q 18 28, 28 38 T 48 38 T 60 36" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M8 46 Q 18 38, 28 46 T 48 46 T 60 44" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+          TideShift
+        </div>
+        <p style="color:rgba(255,255,255,0.65); font-size:0.95rem; max-width:340px;">A student-led nonprofit working to keep California's coastline thriving for the next generation that walks it.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#evolution">About Us</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#impact">Impact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#donate">Donate</a></li>
+          <li><a href="mailto:example@example.com">example@example.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> TideShift. A student-led project.</span>
+      <span>Built for the California coast.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="donateModal" role="dialog" aria-modal="true" aria-labelledby="donate-modal-title">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h3 id="donate-modal-title">Thank you!</h3>
+    <p id="donate-modal-msg">Your generosity keeps the coast cleaner.</p>
+    <button class="btn btn-primary" id="closeModal">Close</button>
+  </div>
+</div>
+
+<script>
+  // -------- Year --------
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // -------- Mobile Nav --------
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  // -------- Smooth scroll polyfill (fallback for older browsers) --------
+  (function smoothScrollPolyfill() {
+    const supportsNative = 'scrollBehavior' in document.documentElement.style;
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (!target) return;
+        e.preventDefault();
+        if (supportsNative) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          const startY = window.pageYOffset;
+          const endY = target.getBoundingClientRect().top + startY - 70;
+          const dur = 600;
+          const t0 = performance.now();
+          (function step(now) {
+            const t = Math.min(1, (now - t0) / dur);
+            const ease = 0.5 - Math.cos(Math.PI * t) / 2;
+            window.scrollTo(0, startY + (endY - startY) * ease);
+            if (t < 1) requestAnimationFrame(step);
+          })(t0);
+        }
+      });
+    });
+  })();
+
+  // -------- Intersection Observer animations (with fallback) --------
+  (function animateOnScroll() {
+    const items = document.querySelectorAll('[data-animate]');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(el => el.classList.add('in'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(el => io.observe(el));
+  })();
+
+  // -------- Founder image runtime check --------
+  (function loadFounder() {
+    const test = new Image();
+    test.onload = function () {
+      const holder = document.getElementById('founderPhoto');
+      if (!holder) return;
+      holder.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = 'assets/founder.png';
+      img.alt = 'Marisabel Testing, founder of TideShift';
+      holder.appendChild(img);
+    };
+    test.onerror = function () { /* keep SVG fallback */ };
+    test.src = 'assets/founder.png';
+  })();
+
+  // -------- Toast --------
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  // -------- Contact form validation --------
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valid = true;
+      const fields = [
+        { id: 'field-name', input: 'c-name', test: v => v.trim().length > 0 },
+        { id: 'field-email', input: 'c-email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+        { id: 'field-subject', input: 'c-subject', test: v => v.trim().length > 0 },
+        { id: 'field-msg', input: 'c-msg', test: v => v.trim().length >= 5 },
+      ];
+      fields.forEach(f => {
+        const wrap = document.getElementById(f.id);
+        const input = document.getElementById(f.input);
+        if (!f.test(input.value)) {
+          wrap.classList.add('invalid');
+          valid = false;
+        } else {
+          wrap.classList.remove('invalid');
+        }
+      });
+      if (valid) {
+        form.reset();
+        showToast('Message sent — we\'ll be in touch soon!');
+      } else {
+        showToast('Please complete the highlighted fields.');
+      }
+    });
+    form.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('input', () => {
+        const wrap = el.closest('.field');
+        if (wrap) wrap.classList.remove('invalid');
+      });
+    });
+  }
+
+  // -------- Donate flow --------
+  const amountBtns = document.querySelectorAll('.amount-btn');
+  const customAmount = document.getElementById('customAmount');
+  let selectedAmount = 50;
+  amountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      amountBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAmount = parseInt(btn.dataset.amount, 10);
+      customAmount.value = '';
+    });
+  });
+  customAmount.addEventListener('input', () => {
+    amountBtns.forEach(b => b.classList.remove('selected'));
+    const v = parseInt(customAmount.value, 10);
+    selectedAmount = (!isNaN(v) && v > 0) ? v : 0;
+  });
+
+  const donateContinue = document.getElementById('donateContinue');
+  const modal = document.getElementById('donateModal');
+  const modalMsg = document.getElementById('donate-modal-msg');
+  const closeModal = document.getElementById('closeModal');
+  donateContinue.addEventListener('click', () => {
+    if (!selectedAmount || selectedAmount < 1) {
+      showToast('Please choose or enter a donation amount.');
+      return;
+    }
+    modalMsg.textContent = `Your $${selectedAmount} gift keeps the coast cleaner. Thank you for joining the wave!`;
+    modal.classList.add('show');
+  });
+  closeModal.addEventListener('click', () => modal.classList.remove('show'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('show');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('show');
+  });
+</script>
+
+</body>
+</html>
